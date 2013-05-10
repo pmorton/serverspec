@@ -5,6 +5,10 @@ module Serverspec
     class Base
       class NotImplementedError < Exception; end
 
+      def not_implemented(*args)
+        raise NotImplementedError.new
+      end
+
       def escape target
         Shellwords.shellescape(target.to_s())
       end

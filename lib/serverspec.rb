@@ -14,6 +14,7 @@ require 'serverspec/commands/debian'
 require 'serverspec/commands/gentoo'
 require 'serverspec/commands/solaris'
 require 'serverspec/commands/darwin'
+require 'serverspec/commands/windows'
 
 RSpec.configure do |c|
   c.include(Serverspec::Helper::RedHat,  :os => :redhat)
@@ -21,6 +22,7 @@ RSpec.configure do |c|
   c.include(Serverspec::Helper::Gentoo,  :os => :gentoo)
   c.include(Serverspec::Helper::Solaris, :os => :solaris)
   c.include(Serverspec::Helper::Darwin,  :os => :darwin)
+  c.include(Serverspec::Helper::Windows,  :os => :windows)
   c.add_setting :os,            :default => nil
   c.add_setting :host,          :default => nil
   c.add_setting :ssh,           :default => nil

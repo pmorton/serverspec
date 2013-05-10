@@ -11,6 +11,7 @@ require 'serverspec/helper/debian'
 require 'serverspec/helper/gentoo'
 require 'serverspec/helper/solaris'
 require 'serverspec/helper/darwin'
+require 'serverspec/helper/windows'
 require 'serverspec/helper/detect_os'
 
 # Obsoleted helpers
