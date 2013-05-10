@@ -116,6 +116,24 @@ module Serverspec
         wrap_powershell("if ((([ADSI]'WinNT://Localhost/#{user},user').UserFlags[0] -band 0x800000) -ne 0 ) { exit 0 } else { exit 1 }")
       end
 
+      def check_is_reg_key key
+        wrap_powershell("if ( (Get-Item '#{key}').PSIsContainer ) { exit 0 } else { exit 1 }")
+      end
+
+      def check_is_reg_value value
+        wrap_powershell("if ( (Get-Item '#{value}').PSIsContainer ) { exit 0 } else { exit 1 }")
+      end
+
+      def check_reg_value key, value, set_value
+        key = key.gsub(":\\","\\")
+       pipeline_count_exit_true("reg query '#{key}' /v '#{value}' | where { $_ -match '#{set_value}$' }", "-ne", 0)
+      end
+
+      def check_reg_type key, value, type
+        key = key.gsub(":\\","\\")
+       pipeline_count_exit_true("reg query '#{key}' /v '#{value}' | where { $_ -match '#{type}' }", "-ne", 0)
+      end
+
     end
   end
 end
