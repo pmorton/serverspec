@@ -104,6 +104,18 @@ module Serverspec
         pipeline_count_exit_true("([ADSI]'WinNT://Localhost/#{group},group').psbase.Invoke('Members') | % { Write-Output $_.GetType().InvokeMember('Name', 'GetProperty', $null, $_, $null) }|where { $_ -imatch '#{user}' }", "-ne", 0)
       end
 
+      def check_user_enabled user
+        wrap_powershell("if ((([ADSI]'WinNT://Localhost/#{user},user').UserFlags[0] -band 0x2) -eq 0 ) { exit 0 } else { exit 1 }")
+      end
+
+      def check_user_expireable user
+         wrap_powershell("if ((([ADSI]'WinNT://Localhost/#{user},user').UserFlags[0] -band 0x10000) -eq 0 ) { exit 0 } else { exit 1 }")
+      end
+
+      def check_user_expired user
+        wrap_powershell("if ((([ADSI]'WinNT://Localhost/#{user},user').UserFlags[0] -band 0x800000) -ne 0 ) { exit 0 } else { exit 1 }")
+      end
+
     end
   end
 end
